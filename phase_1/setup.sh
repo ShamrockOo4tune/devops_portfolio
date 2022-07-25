@@ -1,8 +1,10 @@
 #!/bin/bash
 clear
 echo 'Initializing setup variables...'
-export $(grep -v '^#' ./phase_1/setup.env | xargs)
-echo -e "\nFollowing variables are now set:\n$(grep -v '^#' ./phase_1/setup.env)\n"
+export $(grep -v '^#' ./setup.env | xargs)
+echo -e "\nFollowing variables are now set:\n$(grep -v '^#' ./setup.env)\n"
+
+#check if compatible terraform executable is available or install it
 if ! [ -x "$(command -v terraform)" ]; 
   then echo -e "No terraform execurable has been foud on PATH \nInsatlling terraform...";
   case $(uname -m) in
@@ -33,3 +35,8 @@ elif test -f ~/.aws/credentials;
 else
   echo -e '\nBe ready to provide AWS credentials'
 fi
+
+#create remote backend for TF states
+terraform -chdir=../infrastructure/remote_state/infra init 
+terraform -chdir=../infrastructure/remote_state/infra apply -auto-approve
+terraform -chdir=../infrastructure/remote_state/infra output | sed 's/ //g;s/"//g' > setup.tmp
