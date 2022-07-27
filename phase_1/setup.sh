@@ -37,6 +37,9 @@ else
 fi
 
 #create remote backend for TF states
-terraform -chdir=../infrastructure/remote_state/infra init 
-terraform -chdir=../infrastructure/remote_state/infra apply -auto-approve
-terraform -chdir=../infrastructure/remote_state/infra output | sed 's/ //g;s/"//g' > setup.tmp
+terraform -chdir=../infrastructure/infra/remote_state init 
+terraform -chdir=../infrastructure/infra/remote_state apply -auto-approve
+terraform -chdir=../infrastructure/infra/remote_state output > backend.hcl
+
+sed -i 's|backend "local" {}|backend "s3" {\n    key = "infrastructure/infra/remote_state/terraform.tfstate"\n    encrypt = true\n  }|' ../infrastructure/infra/remote_state/main.tf
+terraform -chdir=../infrastructure/infra/remote_state init -migrate-state -backend-config=../../../phase_1/backend.hcl -force-copy

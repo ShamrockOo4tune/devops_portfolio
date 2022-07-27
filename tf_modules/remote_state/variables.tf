@@ -1,5 +1,5 @@
 variable "bucket_name" {
-  description = "The name for the remote backkend (s3 bucket)"
+  description = "The name for the remote backend (s3 bucket)"
   type        = string
 }
 
