@@ -58,11 +58,11 @@ resource "aws_route_table_association" "public_routes" {
 
 
 #################
-# Private subnets  only as example. NAT gateway is not covered with free tier
+# Private subnets
 #################
 
-/* resource "aws_subnet" "private" {
-  count                   = var.subnets_cardinality
+resource "aws_subnet" "private" {
+  count                   = local.private_subnets_cardinality
   vpc_id                  = aws_vpc.vpc.id
   map_public_ip_on_launch = false
   cidr_block              = element(var.private_subnet_cidrs, count.index)
@@ -74,7 +74,7 @@ resource "aws_route_table_association" "public_routes" {
 }
 
 resource "aws_eip" "nat" {
-  count = var.subnets_cardinality
+  count = local.private_subnets_cardinality
   vpc   = true
   tags = merge(
     local.tags,
@@ -83,7 +83,7 @@ resource "aws_eip" "nat" {
 }
 
 resource "aws_nat_gateway" "nat" {
-  count         = var.subnets_cardinality
+  count         = local.private_subnets_cardinality
   allocation_id = aws_eip.nat[count.index].id
   subnet_id     = element(aws_subnet.public[*].id, count.index)
   tags = merge(
@@ -93,7 +93,7 @@ resource "aws_nat_gateway" "nat" {
 }
 
 resource "aws_route_table" "private" {
-  count  = var.subnets_cardinality
+  count  = local.private_subnets_cardinality
   vpc_id = aws_vpc.vpc.id
   route {
     cidr_block = "0.0.0.0/0"
@@ -111,11 +111,13 @@ resource "aws_route_table_association" "private_route" {
   route_table_id = aws_route_table.private[count.index].id
   subnet_id      = element(aws_subnet.private[*].id, count.index)
 }
- */
 
 locals {
   tags = {
     environment = "${var.environment}"
     tf_managed  = "true"
   }
+
+  # Private subnets only as example. NAT gateway is not covered with free tier
+  private_subnets_cardinality = 0
 }
