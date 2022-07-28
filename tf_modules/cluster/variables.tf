@@ -47,4 +47,8 @@ variable "workers_qty" {
   description = "Qty of worker instances to create"
 }
 
-
+variable "public_key_path" {
+  type        = string
+  default     = "../../../phase_1/nodes_key.pub"
+  description = "Path to public ssh key which is going to be used for remote access to EC2 the nodes"
+}

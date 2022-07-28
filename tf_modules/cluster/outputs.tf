@@ -12,3 +12,10 @@ output "masters-subnets" {
 output "workers-subnets" {
   value = aws_instance.workers[*].subnet_id
 }
+output "master_nodes_ip" {
+  value = aws_instance.masters[*].public_ip
+}
+output "worker_nodes_ip" {
+  value = aws_instance.workers[*].public_ip
+}
+

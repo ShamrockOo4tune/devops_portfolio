@@ -33,5 +33,6 @@ module "cluster" {
   # master_instance_type = "t2.micro"
   # worker_instance_type = "t2.micro"
   # masters_qty          = 1
-  # workers_qty          = 3
+  workers_qty = 0
+  # public_key_path      = "../../../phase_1/nodes_key.pub"
 }

@@ -43,3 +43,6 @@ terraform -chdir=../infrastructure/infra/remote_state output > backend.hcl
 
 sed -i 's|backend "local" {}|backend "s3" {\n    key = "infrastructure/infra/remote_state/terraform.tfstate"\n    encrypt = true\n  }|' ../infrastructure/infra/remote_state/main.tf
 terraform -chdir=../infrastructure/infra/remote_state init -migrate-state -backend-config=../../../phase_1/backend.hcl -force-copy
+
+# create key-pair for remote access to nodes
+ssh-keygen -q -t rsa -b 4096 -f ./nodes_key -N ""

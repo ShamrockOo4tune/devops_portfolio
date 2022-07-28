@@ -7,3 +7,9 @@ output "masters-subnets" {
 output "workers-subnets" {
   value = module.cluster.workers-subnets
 }
+output "master_nodes_ip" {
+  value = module.cluster.master_nodes_ip
+}
+output "worker_nodes_ip" {
+  value = module.cluster.worker_nodes_ip
+}
