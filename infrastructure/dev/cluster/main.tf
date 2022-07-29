@@ -32,7 +32,7 @@ module "cluster" {
   # ami                  = "ami-094c442a8e9a67935" # for eu-central-1
   # master_instance_type = "t2.micro"
   # worker_instance_type = "t2.micro"
-  # masters_qty          = 1
-  workers_qty = 0
+  # masters_qty = 1
+  workers_qty = 0 # 3
   # public_key_path      = "../../../phase_1/nodes_key.pub"
 }
