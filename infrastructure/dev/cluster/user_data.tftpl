@@ -1,0 +1,9 @@
+#!/bin/bash 
+sudo useradd ansible
+echo "ansible ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers
+sudo mkdir /home/ansible/.ssh
+echo "${public_key}" | sudo tee /home/ansible/.ssh/authorized_keys
+sudo chown ansible /home/ansible/.ssh
+sudo chmod 700 /home/ansible/.ssh
+sudo chown ansible /home/ansible/.ssh/authorized_keys
+sudo chmod 600 /home/ansible/.ssh/authorized_keys

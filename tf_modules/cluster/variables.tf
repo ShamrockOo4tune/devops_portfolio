@@ -52,3 +52,15 @@ variable "public_key_path" {
   default     = "../../../phase_1/nodes_key.pub"
   description = "Path to public ssh key which is going to be used for remote access to EC2 the nodes"
 }
+
+variable "add_key_to_masters" {
+  type        = bool
+  default     = false
+  description = "Will master nodes need default user remote access (with certificate) enabled?"
+}
+
+variable "add_key_to_workers" {
+  type        = bool
+  default     = false
+  description = "Will worker nodes need default user remote access (with certificate) enabled?"
+}
