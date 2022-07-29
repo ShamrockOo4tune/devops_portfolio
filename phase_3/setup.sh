@@ -3,14 +3,13 @@ clear
 #check if ansible executable is available or install it
 if ! [ -x "$(command -v ansible)" ]; 
   then echo -e "No ansible execurable has been foud on PATH \nInsatlling ansible...";
-  if ! [[ $(python3 --version | awk '{ print $2 }') =~ 3.(8|9|\d{2}).[0-9] ]];
-    then echo "Ansible requires python version >= 3.8";
-    exit 1;
-  fi
-  if ! [ -x "$(command -v pip)" ];
-    then echo "missing pip";
-    exit 1;
-  fi
-  python3 -m pip install --user ansible
+  case $(cat /etc/os-release | awk -FNAME= 'NR == 1 {print $2}') in
+    "Ubuntu") apt update;
+              apt install software-properties-common;
+              add-apt-repository --yes --update ppa:ansible/ansible;
+              apt install ansible ;;
+    *)        echo 'Please refer to official installation guideline: https://docs.ansible.com/ansible/latest/installation_guide/index.html' ;
+              exit 1 ;;
+  esac
 fi
 ansible --version
